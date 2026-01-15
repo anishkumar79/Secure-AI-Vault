@@ -158,7 +158,7 @@ export const Login: React.FC = () => {
             </div>
 
             {/* Powered by */}
-            <div className="pt-4 lg:pt-6 border-t border-slate-200 dark:border-slate-700">
+            {/* /* <div className="pt-4 lg:pt-6 border-t border-slate-200 dark:border-slate-700">
               <p className="text-xs lg:text-sm text-slate-500 dark:text-slate-400 text-center">
                 Powered by{' '}
                 <a
@@ -170,7 +170,7 @@ export const Login: React.FC = () => {
                   bnminfosolution.co.in
                 </a>
               </p>
-            </div>
+            </div> */ }
           </div>
         </div>
 

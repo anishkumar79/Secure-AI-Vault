@@ -18,15 +18,16 @@ const corsOptions = {
     const allowedOrigins = [
       process.env.CLIENT_URL || 'http://localhost:3000',
       'http://localhost:3000',
+      'http://localhost:3001',
       'http://localhost:5173', // Vite default
     ];
-    
+
     // Allow requests with no origin (health checks, direct API calls, server-to-server)
     // This is safe and necessary for Render health checks and direct API access
     if (!origin) {
       return callback(null, true);
     }
-    
+
     if (allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
@@ -51,14 +52,14 @@ app.use(helmet({
     directives: {
       defaultSrc: ["'self'"],
       styleSrc: [
-        "'self'", 
+        "'self'",
         "'unsafe-inline'", // Allow inline styles for React
         "https://fonts.googleapis.com" // Google Fonts
       ],
       scriptSrc: ["'self'"],
       imgSrc: [
-        "'self'", 
-        "data:", 
+        "'self'",
+        "data:",
         "blob:",
         "https://firebasestorage.googleapis.com", // Firebase Storage
         "https://*.googleapis.com"
@@ -75,7 +76,7 @@ app.use(helmet({
         process.env.CLIENT_URL || 'http://localhost:3000'
       ],
       fontSrc: [
-        "'self'", 
+        "'self'",
         "data:",
         "https://fonts.googleapis.com",
         "https://fonts.gstatic.com" // Google Fonts CDN
@@ -123,7 +124,7 @@ try {
     credential: admin.credential.cert(serviceAccount),
     storageBucket: process.env.FIREBASE_STORAGE_BUCKET
   });
-  
+
   logger.system('✅ Firebase Admin initialized successfully');
   logger.info('Storage bucket configured');
 } catch (error) {
@@ -153,15 +154,15 @@ app.get('/api/health', (req, res) => {
 // Serve static files from client-build (for production deployment)
 if (process.env.NODE_ENV === 'production') {
   const clientBuildPath = path.join(__dirname, 'client-build');
-  
+
   // Serve static files
   app.use(express.static(clientBuildPath));
-  
+
   // Handle React routing - send all non-API requests to index.html
   app.get('*', (req, res) => {
     res.sendFile(path.join(clientBuildPath, 'index.html'));
   });
-  
+
   logger.system('📦 Serving static frontend from client-build/');
 }
 
